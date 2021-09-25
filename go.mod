@@ -1,4 +1,4 @@
-module ent-test
+module github.com/osamu2001/ent-test
 
 go 1.17
 
