@@ -8,6 +8,7 @@ import (
 
 	"github.com/osamu2001/ent-test/ent"
 	"github.com/osamu2001/ent-test/ent/user"
+	"github.com/osamu2001/ent-test/ent/car"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -86,4 +87,22 @@ func CreateCars(ctx context.Context, client *ent.Client) (*ent.User, error) {
 	}
 	log.Println("user was created: ", a8m)
 	return a8m, nil
+}
+
+func QueryCars(ctx context.Context, a8m *ent.User) error {
+	cars, err := a8m.QueryCars().All(ctx)
+	if err != nil {
+		return fmt.Errorf("failed querying user cars: %w", err)
+	}
+	log.Println("returned cars:", cars)
+
+	// 特定の車をフィルタリングするには
+	ford, err := a8m.QueryCars().
+		Where(car.Model("Ford")).
+		Only(ctx)
+	if err != nil {
+		return fmt.Errorf("failed querying user cars: %w", err)
+	}
+	log.Println(ford)
+	return nil
 }
