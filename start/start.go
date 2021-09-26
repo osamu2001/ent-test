@@ -232,3 +232,16 @@ func QueryArielCars(ctx context.Context, client *ent.Client) error {
 	// Output: (Car(Model=Tesla, RegisteredAt=<Time>), Car(Model=Ford, RegisteredAt=<Time>),)
 	return nil
 }
+
+func QueryGroupWithUsers(ctx context.Context, client *ent.Client) error {
+	groups, err := client.Group.
+		Query().
+		Where(group.HasUsers()).
+		All(ctx)
+	if err != nil {
+		return fmt.Errorf("failed getting groups: %w", err)
+	}
+	log.Println("groups returned:", groups)
+	// Output: (Group(Name=GitHub), Group(Name=GitLab),)
+	return nil
+}
